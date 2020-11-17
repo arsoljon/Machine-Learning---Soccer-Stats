@@ -37,7 +37,7 @@ def get_fifa_data():
 
     #normalize our team data into a json dataframe so we can make a easy to read csv file
     df = pd.json_normalize(data["teams"])
-    df.to_csv("Data/team_data_fifa.csv", index = False)
+    df.to_csv("../Data/team_data_fifa.csv", index = False)
 
     #avoiid being flagged as a spammer from site
     time.sleep(1)
