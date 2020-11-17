@@ -4,6 +4,9 @@ import re
 from bs4 import BeautifulSoup
 import pandas as pd
 
+#will save the paths of the files when created.
+list_of_files=[]
+
 def get_fifa_data():
     url = "https://www.fifaindex.com/teams/fifa20_358/?league=13&order=desc"
     r = requests.get(url)
@@ -31,31 +34,34 @@ def get_fifa_data():
         _mid = list_of_nums[i][2:4]
         _def = list_of_nums[i][4:6]
         _ovr = list_of_nums[i][6:8]
-        data["Squads"].append({"Squad_name": n, "Details" : {"ATT": _att, "MID": _mid, "DEF": _def, "OVR": _ovr}})
+        data["Squads"].append({"Squad": n, "ATT": _att, "MID": _mid, "DEF": _def, "OVR": _ovr})
         i += 1
 
     #normalize our team data into a json dataframe so we can make a easy to read csv file
     df = pd.json_normalize(data["Squads"])
-    df.to_csv("../Data/team_data_fifa.csv", index = False)
-
+    path = "../Data/team_data_fifa.csv"
+    list_of_files.append(path)
+    df.to_csv(path, index = False)
     #avoiid being flagged as a spammer from site
     time.sleep(1)
     return df
 
 
 def get_possession_data():
-    path = "../PossesionEPL20192020(2).xlsx"
+    path = "../PossesionEPL.xlsx"
     df = pd.DataFrame(pd.read_excel(path))
-    df.to_csv("../Data/team_poss_data.csv", index = False)
+    path = "../Data/team_poss_data.csv"
+    list_of_files.append(path)
+    df.to_csv(path, index = False)
     return df
 
 def get_epl_data():
-    path = "../EPLTable20192020.xlsx"
+    path = "../EPLTable.xlsx"
     df = pd.DataFrame(pd.read_excel(path))
-    df.to_csv("../Data/team_elp_data.csv", index = False)
+    path = "../Data/team_elp_data.csv"
+    list_of_files.append(path)
+    df.to_csv(path, index = False)
     return df
 
-get_epl_data()
-get_fifa_data()
-get_possession_data()
+print(get_fifa_data())
 
