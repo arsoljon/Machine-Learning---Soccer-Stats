@@ -52,16 +52,16 @@ def get_possession_data():
     df = pd.DataFrame(pd.read_excel(path))
     path = "../Data/team_poss_data.csv"
     list_of_files.append(path)
-    df.to_csv(path, index = False)
-    return df
+    #df.to_csv(path, index = False)
+    #return df
 
 def get_epl_data():
     path = "../EPLTable.xlsx"
     df = pd.DataFrame(pd.read_excel(path))
     path = "../Data/team_elp_data.csv"
     list_of_files.append(path)
-    df.to_csv(path, index = False)
-    return df
+    #df.to_csv(path, index = False)
+    #return df
 
 print(get_fifa_data())
 
