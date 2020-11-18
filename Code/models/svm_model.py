@@ -73,4 +73,35 @@ def combined_svm():
 
 #make svm for matches without betting
 
+path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo.csv"
+df = pd.read_csv(path, sep=',', dtype=str)
+df.drop(['Div', 'Date', 'Time', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
+#y is FTR, Full Time Result. Denoted with a H/D/A   for Home win/ Draw/ Away win
+#Essentially, This will discover if teams win more often when they play as home or away.
+#can try a  differeent y later. Maybe creating separate testing data with only team matches.
+#can add referee id later to include referees
+#change the values for HTR, Half time results.
+df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'H'] = 1.0
+df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'D'] = 0.0
+df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = -1.0
+X = np.array(df.drop(['FTR'], axis=1))
+Y = np.array(df.loc[:, ['FTR']])
+#Change string values to numbers for y. H/D/A
+ytemp = []
+for r in Y:
+    if (r == 'H'):
+        ytemp.append(1)
+    elif (r == 'D'):
+        ytemp.append(0)
+    elif (r == 'A'):
+        ytemp.append(-1)
+Y = ytemp
 
+train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=1)
+
+model = SVC(kernel="linear")
+model.fit(train_x, train_y)
+
+pred_y = model.predict(test_x)
+acc = accuracy_score(test_y, pred_y)
+print(acc)
