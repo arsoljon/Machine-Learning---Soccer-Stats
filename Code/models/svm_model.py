@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as np
 import numpy as np
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.svm import SVC
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
 
 #Analyze Combine_data.csv first.
 #classes will be [w, d, l] = [0,0,0]
@@ -17,15 +20,8 @@ s.fit(data)
 data = s.transform(data)
 #the next line helps organize the data easier
 scaled_df = pd.DataFrame(data, columns=df.columns)
-print(scaled_df)
 #data is 20rows x 13cols
-#make the train & test data
-train_data = scaled_df.loc[:14]     #number of rows = 15
-test_data = scaled_df.loc[15:]      #number of rows = 5
-
-train_x = scaled_df.drop(['W', 'D', 'L'], axis=1)
-train_y = scaled_df.loc[:,['W', 'D', 'L']]
-test_x = scaled_df.drop(['W', 'D', 'L'], axis=1)
-test_y = scaled_df.loc[:,['W', 'D', 'L']]
-
+X = scaled_df.drop(['W', 'D', 'L'], axis=1)
+Y = scaled_df.loc[:,['W', 'D', 'L']]
+train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=0)
 
