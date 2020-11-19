@@ -162,6 +162,9 @@ def matches_bo_svm():
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'H'] = 1.0
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'D'] = 0.0
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = -1.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'H'] = 1.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'D'] = 0.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'A'] = -1.0
     X = np.array(df.drop(['FTR'], axis=1))
     Y = np.array(df.loc[:, ['FTR']])
     # Change string values to numbers for y. H/D/A
@@ -196,21 +199,3 @@ def matches_bo_svm():
     acc = accuracy_score(test_y, pred_y)
     print(acc)
 
-    #Plot
-    data_x = df  #used for the plot only
-    data_y = df.loc[:,['FTHG'] ]
-    ytemp = []
-    for i in range(data_y.index.stop):
-        ytemp.append(i + 1)
-    #created a count for each of the games
-    data_y.loc[:, 'FTHG'][data_y.loc[:, 'FTHG'] != False] = ytemp
-    #MaxH, MaxD, MaxA, AvgH, AvgD, AvgA
-    odds_data = df.loc[:,["MaxH", "MaxD", "MaxA", "AvgH", "AvgD", "AvgA"]]
-    print(odds_data)
-    plt.scatter(data_y.iloc[:,0], odds_data.iloc[:, 5], c = 'coral', s=50, cmap='autumn')
-    plt.title('Match Results')
-    plt.xlabel('Single Match')
-    plt.ylabel('Odds of Home win')
-    plt.show()
-
-matches_bo_svm()
