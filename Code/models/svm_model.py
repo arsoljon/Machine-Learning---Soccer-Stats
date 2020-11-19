@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 import matplotlib
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
+import seaborn as sns
 
 
 
@@ -47,6 +48,7 @@ def combined_svm():
             r[1] = 0
 
     #remove other columns from Y & include 1 col that use 1/0/-1 -> w/d/L
+
     ytemp = []
     for r in Y:
         ytemp.append(r[0])
@@ -66,6 +68,20 @@ def combined_svm():
         print('Filename:', filename, file=f)
     print(acc)
 
+    data_x = df.drop(['W', 'D', 'L'], axis=1)   #used for the plot only
+    data_y = df.loc[:, ['W']]                   #used for the plot only
+    #For some reasone a for loop would not change the values in data_y. -_-
+    #this is not needed.
+    data_y.loc[:, 'W'][data_y.loc[:, 'W'] != False] = Y
+    #Plotting the Possesion & points
+    plt.scatter(data_x.iloc[:, 4], data_x.iloc[:, 9],c = 'coral', s=50, cmap='autumn')
+    print(data_x.iloc[:, 5])
+    print(data_x)
+    plt.title('Stats for the Season')
+    plt.xlabel('Possession%')
+    plt.ylabel('Points earned')
+    plt.show()
+
     '''
     #visulaize our data
     #will worry about this later.
@@ -73,6 +89,7 @@ def combined_svm():
     plt.plot(X, 'ro', markersize = 1)
     plt.show()
     '''
+
 
 
 #make svm for matches without betting
@@ -110,6 +127,27 @@ def matches_wobo_svm():
 
     acc = accuracy_score(test_y, pred_y)
     print(acc)
+
+    #Plot
+    data_x = df  #used for the plot only
+    data_y = df.loc[:,['FTHG'] ]
+    ytemp = []
+    for i in range(data_y.index.stop):
+        ytemp.append(i + 1)
+    #created a count for each of the games
+    data_y.loc[:, 'FTHG'][data_y.loc[:, 'FTHG'] != False] = ytemp
+    plt.scatter(data_y.iloc[:,0], data_x.iloc[:, 5], c = 'coral', s=50, cmap='autumn')
+    plt.title('Match Results')
+    plt.xlabel('Single Match')
+    plt.ylabel('Halftime points won')
+    plt.show()
+    plt.scatter(data_y.iloc[:,0], data_x.iloc[:, 2], c = 'blue', s=50, cmap='autumn')
+    plt.title('Match Results')
+    plt.xlabel('Single Match')
+    plt.ylabel('Fulltime points won')
+    plt.show()
+
+matches_wobo_svm()
 
 def matches_bo_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo.csv"
