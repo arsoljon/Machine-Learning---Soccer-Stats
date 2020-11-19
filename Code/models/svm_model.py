@@ -147,7 +147,7 @@ def matches_wobo_svm():
     plt.ylabel('Fulltime points won')
     plt.show()
 
-matches_wobo_svm()
+
 
 def matches_bo_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo.csv"
@@ -196,5 +196,21 @@ def matches_bo_svm():
     acc = accuracy_score(test_y, pred_y)
     print(acc)
 
-    #plt.scatter(test_x[:,:1], test_y, data=None )
-    #plt.show()
+    #Plot
+    data_x = df  #used for the plot only
+    data_y = df.loc[:,['FTHG'] ]
+    ytemp = []
+    for i in range(data_y.index.stop):
+        ytemp.append(i + 1)
+    #created a count for each of the games
+    data_y.loc[:, 'FTHG'][data_y.loc[:, 'FTHG'] != False] = ytemp
+    #MaxH, MaxD, MaxA, AvgH, AvgD, AvgA
+    odds_data = df.loc[:,["MaxH", "MaxD", "MaxA", "AvgH", "AvgD", "AvgA"]]
+    print(odds_data)
+    plt.scatter(data_y.iloc[:,0], odds_data.iloc[:, 5], c = 'coral', s=50, cmap='autumn')
+    plt.title('Match Results')
+    plt.xlabel('Single Match')
+    plt.ylabel('Odds of Home win')
+    plt.show()
+
+matches_bo_svm()
