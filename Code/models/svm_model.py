@@ -181,10 +181,6 @@ def matches_bo_svm():
     s = MinMaxScaler()
     s.fit(datax)
     datax = s.transform(datax)
-    print(len(datax))
-    print(len(datax[:,:1]))
-
-
 
     train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=1)
 
@@ -196,7 +192,6 @@ def matches_bo_svm():
     acc = accuracy_score(test_y, pred_y)
     print(acc)
 
-<<<<<<< HEAD
     #Plot
     data_x = df  #used for the plot only
     data_y = df.loc[:,['FTHG'] ]
@@ -214,6 +209,6 @@ def matches_bo_svm():
     plt.ylabel('Odds of Home win')
     plt.show()
 
-matches_bo_svm()
-=======
->>>>>>> 7422d3368ae7b161cdc0022546319e9bd5f12418
+
+
+
