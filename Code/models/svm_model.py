@@ -196,6 +196,7 @@ def matches_bo_svm():
     acc = accuracy_score(test_y, pred_y)
     print(acc)
 
+<<<<<<< HEAD
     #Plot
     data_x = df  #used for the plot only
     data_y = df.loc[:,['FTHG'] ]
@@ -214,3 +215,5 @@ def matches_bo_svm():
     plt.show()
 
 matches_bo_svm()
+=======
+>>>>>>> 7422d3368ae7b161cdc0022546319e9bd5f12418
