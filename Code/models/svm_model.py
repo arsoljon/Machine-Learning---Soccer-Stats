@@ -209,6 +209,38 @@ def matches_bo_svm():
     plt.ylabel('Odds of Home win')
     plt.show()
 
+def past_matches_svm():
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Code/models/2018-2019.csv"
+    df = pd.read_csv(path, sep=',', dtype=str)
+    df.drop(['HTR', 'Date', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
+    X = np.array(df.drop(['FTR'], axis=1))
+    Y = np.array(df.loc[:, ['FTR']])
+    # Change string values to numbers for y. H/D/A
+    ytemp = []
+    for r in Y:
+        if (r == 'H'):
+            ytemp.append(1)
+        elif (r == 'D'):
+            ytemp.append(0)
+        elif (r == 'A'):
+            ytemp.append(-1)
+    Y = ytemp
 
+    # Normilize data
+    datax = X
+    datax = datax.astype(np.float)
+    s = MinMaxScaler()
+    s.fit(datax)
+    datax = s.transform(datax)
 
+    train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=1)
 
+    model = SVC(kernel="rbf", degree=1)
+    model.fit(train_x, train_y)
+
+    pred_y = model.predict(test_x)
+
+    acc = accuracy_score(test_y, pred_y)
+    print(acc)
+
+past_matches_svm()
