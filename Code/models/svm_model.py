@@ -147,7 +147,7 @@ def matches_wobo_svm():
     plt.ylabel('Fulltime points won')
     plt.show()
 
-matches_wobo_svm()
+
 
 def matches_bo_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo.csv"
@@ -162,6 +162,9 @@ def matches_bo_svm():
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'H'] = 1.0
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'D'] = 0.0
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = -1.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'H'] = 1.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'D'] = 0.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'A'] = -1.0
     X = np.array(df.drop(['FTR'], axis=1))
     Y = np.array(df.loc[:, ['FTR']])
     # Change string values to numbers for y. H/D/A
@@ -198,3 +201,43 @@ def matches_bo_svm():
 
     #plt.scatter(test_x[:,:1], test_y, data=None )
     #plt.show()
+
+def past_matches_svm():
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Code/models/2018-2019.csv"
+    df = pd.read_csv(path, sep=',', dtype=str)
+    df.drop(['Date', 'HomeTeam', 'AwayTeam', 'HTR', 'Referee'], axis=1, inplace=True)
+    X = np.array(df.drop(['FTR'], axis=1))
+    Y = np.array(df.loc[:, ['FTR']])
+    # Change string values to numbers for y. H/D/A
+    ytemp = []
+    for r in Y:
+        if (r == 'H'):
+            ytemp.append(1)
+        elif (r == 'D'):
+            ytemp.append(0)
+        elif (r == 'A'):
+            ytemp.append(-1)
+    Y = ytemp
+
+    # Normilize data
+    datax = X
+    datax = datax.astype(np.float)
+    s = MinMaxScaler()
+    s.fit(datax)
+    datax = s.transform(datax)
+
+
+    train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=20)
+    model = SVC(kernel="linear", degree=6)
+    '''
+    poly degree=6 -> 0.87
+    linear -> 1.0   Overfitting?
+    '''
+    model.fit(train_x, train_y)
+    pred_y = model.predict(test_x)
+    acc = accuracy_score(test_y, pred_y)
+    print(acc)
+        #plt.scatter(test_x[:,:1], test_y, data=None )
+    #plt.show()
+
+past_matches_svm()
