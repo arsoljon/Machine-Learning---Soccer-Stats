@@ -61,11 +61,6 @@ def combined_svm():
 
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
-
-    #save output
-    filename = "../../Data"
-    with open('out.txt', 'w') as f:
-        print('Filename:', filename, file=f)
     print(acc)
 
     data_x = df.drop(['W', 'D', 'L'], axis=1)   #used for the plot only
@@ -80,16 +75,10 @@ def combined_svm():
     plt.title('Stats for the Season')
     plt.xlabel('Possession%')
     plt.ylabel('Points earned')
-    plt.show()
 
-    '''
-    #visulaize our data
-    #will worry about this later.
-    plt.plot(Y[0,0,], 'bo', markersize = 3)
-    plt.plot(X, 'ro', markersize = 1)
-    plt.show()
-    '''
 
+
+combined_svm()
 
 
 #make svm for matches without betting
