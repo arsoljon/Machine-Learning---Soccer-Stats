@@ -16,7 +16,7 @@ def combined_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/Combined_data.csv"
     df = pd.read_csv(path, sep=',', dtype=str)
     df.drop(['Squad'], axis=1, inplace=True)
-    '''
+
     #Normilize data
     data = np.array(df)
     data = data.astype(np.float)
@@ -25,7 +25,8 @@ def combined_svm():
     data = s.transform(data)
     #the next line helps organize the data easier
     scaled_df = pd.DataFrame(data, columns=df.columns)
-    '''
+
+    #prepocessing
     #data is 20rows x 13cols
     X = np.array(df.drop(['W', 'D', 'L'], axis=1), dtype=float)
     Y = np.array(df.loc[:,['W', 'D', 'L']])
@@ -46,23 +47,21 @@ def combined_svm():
             r[0] = -1
             r[2] = 0
             r[1] = 0
-
     #remove other columns from Y & include 1 col that use 1/0/-1 -> w/d/L
-
     ytemp = []
     for r in Y:
         ytemp.append(r[0])
     Y = ytemp
 
+    #svm model
     train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=1)
-
     model = SVC(kernel="linear")
     model.fit(train_x, train_y)
-
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
     print(acc)
 
+    #plot
     data_x = df.drop(['W', 'D', 'L'], axis=1)   #used for the plot only
     data_y = df.loc[:, ['W']]                   #used for the plot only
     #For some reasone a for loop would not change the values in data_y. -_-
@@ -75,7 +74,7 @@ def combined_svm():
     plt.title('Stats for the Season')
     plt.xlabel('Possession%')
     plt.ylabel('Points earned')
-
+    plt.show()
 
 
 combined_svm()
