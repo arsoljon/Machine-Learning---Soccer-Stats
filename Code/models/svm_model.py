@@ -108,6 +108,7 @@ def matches_wobo_2019_2020_svm():
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
     print(acc)
+
     '''
     #Plot
     data_x = scaled_df  #used for the plot only
@@ -129,6 +130,7 @@ def matches_wobo_2019_2020_svm():
     plt.show()
     '''
     return df
+matches_wobo_2019_2020_svm()
 
 def matches_wobo_2018_2019_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2018-2019.csv"
