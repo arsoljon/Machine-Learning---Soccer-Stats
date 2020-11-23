@@ -3,7 +3,6 @@ import numpy as np
 from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
-import matplotlib
 import matplotlib.pyplot as plt
 from sklearn.preprocessing import MinMaxScaler, StandardScaler
 import seaborn as sns
@@ -75,7 +74,7 @@ def combined_svm():
 
 #make svm for matches without betting
 def matches_wobo_svm():
-    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo.csv"
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2019-2020.csv"
     df = pd.read_csv(path, sep=',', dtype=str)
     df.drop(['Div', 'Date', 'Time', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
     #y is FTR, Full Time Result. Denoted with a H/D/A   for Home win/ Draw/ Away win
@@ -133,7 +132,7 @@ matches_wobo_svm()
 
 
 def matches_bo_svm():
-    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo.csv"
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo-2019-2020.csv"
     df = pd.read_csv(path, sep=',', dtype=str)
     df.drop(['Div', 'Date', 'Time', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
 
