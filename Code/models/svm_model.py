@@ -108,7 +108,7 @@ def matches_wobo_2019_2020_svm():
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
     print(acc)
-'''
+    '''
     #Plot
     data_x = scaled_df  #used for the plot only
     data_y = scaled_df.loc[:,['FTHG'] ]
@@ -128,6 +128,7 @@ def matches_wobo_2019_2020_svm():
     plt.ylabel('Fulltime points won')
     plt.show()
     '''
+    return df
 
 def matches_wobo_2018_2019_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2018-2019.csv"
@@ -160,7 +161,7 @@ def matches_wobo_2018_2019_svm():
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
     print(acc)
-    return
+    return df
 
 def matches_wobo_2017_2018_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2017-2018.csv"
@@ -193,14 +194,17 @@ def matches_wobo_2017_2018_svm():
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
     print(acc)
-    return
+    return df
 
-print("2019-2020 : ")
-matches_wobo_2019_2020_svm()
-print("2018-2019 : ")
-matches_wobo_2018_2019_svm()
-print("2017-2018 : ")
-matches_wobo_2017_2018_svm()
+def bigger_training_set_svm():
+    test_df = matches_wobo_2019_2020_svm()
+    train_df_1 = matches_wobo_2018_2019_svm()
+    train_df_2 = matches_wobo_2017_2018_svm()
+    train_frames = [train_df_1, train_df_2]
+    train_df = pd.concat(train_frames)
+    print(len(test_df))
+bigger_training_set_svm()
+
 
 def matches_bo_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo-2019-2020.csv"
