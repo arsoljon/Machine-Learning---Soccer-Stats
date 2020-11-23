@@ -32,7 +32,6 @@ def combined_svm():
     #problem with this method is we lose a layer of accuracy
     #used for softmax in lab15
     #MAKE ONE COLUMN FOR    w/d/l represented by 1/0/-1
-    print(Y)
     for r in Y:
         if (max(r[0], r[1], r[2]) == r[0]):
             r[0] = 1
@@ -60,7 +59,6 @@ def combined_svm():
     acc = accuracy_score(test_y, pred_y)
     print(model)
     print(acc)
-    print(train_x, " ,\n", train_y)
 
     #plot
     data_x = scaled_df.drop(['W', 'D', 'L'], axis=1)   #used for the plot only
@@ -87,7 +85,7 @@ def matches_wobo_svm():
     #change the values for HTR, Half time results.
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'H'] = 1.0
     df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'D'] = 0.0
-    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = -1.0
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = 2
     df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'H'] = 1.0
     df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'D'] = 0.0
     df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'A'] = 2.0
