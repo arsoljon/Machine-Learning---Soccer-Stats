@@ -73,7 +73,7 @@ def combined_svm():
 
 
 #make svm for matches without betting
-def matches_wobo_svm():
+def matches_wobo_2019_2020_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2019-2020.csv"
     df = pd.read_csv(path, sep=',', dtype=str)
     df.drop(['Div', 'Date', 'Time', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
@@ -108,7 +108,7 @@ def matches_wobo_svm():
     pred_y = model.predict(test_x)
     acc = accuracy_score(test_y, pred_y)
     print(acc)
-
+'''
     #Plot
     data_x = scaled_df  #used for the plot only
     data_y = scaled_df.loc[:,['FTHG'] ]
@@ -127,9 +127,80 @@ def matches_wobo_svm():
     plt.xlabel('Single Match')
     plt.ylabel('Fulltime points won')
     plt.show()
+    '''
 
-matches_wobo_svm()
+def matches_wobo_2018_2019_svm():
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2018-2019.csv"
+    df = pd.read_csv(path, sep=',', dtype=str)
+    df.drop(['Div', 'Date', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
+    #Preprocessing
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'H'] = 1.0
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'D'] = 0.0
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = 2
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'H'] = 1.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'D'] = 0.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'A'] = 2.0
+    # Normilize data
+    data = np.array(df)
+    data = data.astype(np.float)
+    s = MinMaxScaler()
+    s.fit(data)
+    data = s.transform(data)
+    # the next line helps organize the data easier
+    scaled_df = pd.DataFrame(data, columns=df.columns)
+    # removed the htr column, halftime results. This increases accuracy.
+    X = np.array(scaled_df.drop(['FTR', 'HTR'], axis=1))
+    Y = np.array(df.loc[:, ['FTR']])
+    Y = Y.ravel().tolist()
 
+    #train
+    train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=1)
+    model = SVC(kernel="linear", degree=7)
+    model.fit(train_x, train_y)
+    pred_y = model.predict(test_x)
+    acc = accuracy_score(test_y, pred_y)
+    print(acc)
+    return
+
+def matches_wobo_2017_2018_svm():
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2017-2018.csv"
+    df = pd.read_csv(path, sep=',', dtype=str)
+    df.drop(['Div', 'Date', 'HomeTeam', 'AwayTeam', 'Referee'], axis=1, inplace=True)
+    #Preprocessing
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'H'] = 1.0
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'D'] = 0.0
+    df.loc[:, 'HTR'][df.loc[:, 'HTR'] == 'A'] = 2
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'H'] = 1.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'D'] = 0.0
+    df.loc[:, 'FTR'][df.loc[:, 'FTR'] == 'A'] = 2.0
+    # Normilize data
+    data = np.array(df)
+    data = data.astype(np.float)
+    s = MinMaxScaler()
+    s.fit(data)
+    data = s.transform(data)
+    # the next line helps organize the data easier
+    scaled_df = pd.DataFrame(data, columns=df.columns)
+    # removed the htr column, halftime results. This increases accuracy.
+    X = np.array(scaled_df.drop(['FTR', 'HTR'], axis=1))
+    Y = np.array(df.loc[:, ['FTR']])
+    Y = Y.ravel().tolist()
+
+    #train
+    train_x, test_x, train_y, test_y = train_test_split(X, Y, test_size=0.3, random_state=1)
+    model = SVC(kernel="linear", degree=7)
+    model.fit(train_x, train_y)
+    pred_y = model.predict(test_x)
+    acc = accuracy_score(test_y, pred_y)
+    print(acc)
+    return
+
+print("2019-2020 : ")
+matches_wobo_2019_2020_svm()
+print("2018-2019 : ")
+matches_wobo_2018_2019_svm()
+print("2017-2018 : ")
+matches_wobo_2017_2018_svm()
 
 def matches_bo_svm():
     path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-bo-2019-2020.csv"
