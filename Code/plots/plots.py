@@ -18,4 +18,21 @@ def plot_possession():
     ax = sns.pairplot(partial_df, kind='reg')
     plt.show()
 
-plot_possession()
+
+def plot_fouls():
+    path = "C:/Users/Jonathan/PycharmProjects/Machine-Learning---Soccer-Stats/Data/matches-wobo-2019-2020.csv"
+    df = pd.read_csv(path, sep=',', dtype=str)
+    temp_df = df
+    df = df.drop(['Div', 'Date', 'Time', 'HomeTeam', 'AwayTeam', 'Referee', 'FTR', 'HTR'], axis=1)
+    data = np.array(df)
+    data = data.astype(np.float)
+    scaled_df = pd.DataFrame(data, columns=df.columns)
+    partial_df = scaled_df.drop(["FTHG","FTAG", "HTHG","HTAG", "HS","AS", "HC","AC","HR","AR", "HF","AF"], axis=1)
+    partial_df['HomeTeam'] = temp_df.loc[:, "HomeTeam"]
+    partial_df['AwayTeam'] = temp_df.loc[:, "AwayTeam"]
+    partial_df['FTR'] = temp_df.loc[:, "FTR"]
+    partial_df['HTR'] = temp_df.loc[:, "HTR"]
+    ax = sns.pairplot(partial_df, kind='reg', hue="FTR", markers=["o","+","O"])
+    plt.show()
+
+plot_fouls()
